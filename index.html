@@ -701,9 +701,10 @@ const EVENTS = [
 ];
 
 // ── STATE ──
-let activeVenues = new Set(VENUES.map(v => v.id));
+const savedVenues = JSON.parse(localStorage.getItem('renmap_venues') || 'null');
+let activeVenues = savedVenues ? new Set(savedVenues) : new Set(VENUES.map(v => v.id));
 let favorites = new Set(JSON.parse(localStorage.getItem('renmap_favs') || '[]'));
-let favFilterOn = false;
+let favFilterOn = JSON.parse(localStorage.getItem('renmap_favFilter') || 'false');
 let selectedEvent = null;
 
 // Time grid: 10:00 to 18:15 in 15-min steps
@@ -771,9 +772,14 @@ function renderChips() {
   updateVenueLabel();
 }
 
+function saveVenues() {
+  localStorage.setItem('renmap_venues', JSON.stringify([...activeVenues]));
+}
+
 function toggleVenue(id) {
   if(activeVenues.has(id)) activeVenues.delete(id);
   else activeVenues.add(id);
+  saveVenues();
   renderChips();
   renderGrid();
 }
@@ -784,19 +790,22 @@ function toggleAllVenues() {
   } else {
     VENUES.forEach(v => activeVenues.add(v.id));
   }
+  saveVenues();
   renderChips();
   renderGrid();
 }
 
 function toggleFavFilter() {
   favFilterOn = !favFilterOn;
+  localStorage.setItem('renmap_favFilter', JSON.stringify(favFilterOn));
   document.getElementById('favFilterBtn').classList.toggle('active', favFilterOn);
   renderGrid();
 }
 
-let lcFilterOn = false;
+let lcFilterOn = JSON.parse(localStorage.getItem('renmap_lcFilter') || 'false');
 function toggleLcFilter() {
   lcFilterOn = !lcFilterOn;
+  localStorage.setItem('renmap_lcFilter', JSON.stringify(lcFilterOn));
   document.getElementById('lcFilterBtn').classList.toggle('active', lcFilterOn);
   renderGrid();
 }
@@ -932,6 +941,8 @@ function toggleTimeFav(evId, timeStr, e) {
 }
 
 // ── INIT ──
+if(favFilterOn) document.getElementById('favFilterBtn').classList.add('active');
+if(lcFilterOn) document.getElementById('lcFilterBtn').classList.add('active');
 renderChips();
 renderGrid();
 </script>
