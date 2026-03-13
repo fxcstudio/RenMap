@@ -540,7 +540,7 @@ body {
 
 <div class="map-section">
   <div class="map-toggle" id="mapToggle" onclick="toggleMap()">
-    <span>&#x1F5FA; Festival Map</span>
+    <span>&#x1F5FA; CLICK TO SHOW FESTIVAL MAP</span>
     <span class="chevron">&#x25BC;</span>
   </div>
   <div class="map-container" id="mapContainer">
@@ -556,7 +556,7 @@ body {
     </button>
     <button class="btn-all" onclick="toggleAllVenues()">All</button>
     <button class="btn-fav-filter" id="favFilterBtn" onclick="toggleFavFilter()">&#x2764; My Events</button>
-    <button class="btn-lc-filter" id="lcFilterBtn" onclick="toggleLcFilter()">LC</button>
+    <button class="btn-lc-filter" id="lcFilterBtn" onclick="toggleLcFilter()">Adult</button>
   </div>
   <div class="venue-panel" id="venuePanel">
     <div class="venue-chips" id="venueChips"></div>
@@ -877,7 +877,7 @@ function renderGrid() {
         <span class="event-name">${ev.name}</span>
         ${ev.sub ? `<span class="event-sub">${ev.sub}</span>` : ''}
         <span class="fav-star">${isFav ? '&#x2605;' : '&#x2606;'}</span>
-        ${ev.lc ? '<span class="lc-badge">LC</span>' : ''}
+        ${ev.lc ? '<span class="lc-badge">Adult</span>' : ''}
       `;
       block.onclick = () => openModal(ev, timeStr);
 
